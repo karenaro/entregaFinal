@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./templatemain.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <h:form id="frmArbolNario">
+            <p:panel id="pnlArbolSuma" header="#{ArbolNarioControlador.textoHeader}">
+                <p:diagram id="diagrama" value="#{ArbolNarioControlador.model}" style="height:400px" /> 
+            </p:panel>
+            <p:remoteCommand name="elementClickRight" actionListener="#{ArbolNarioControlador.onClickRight()}"></p:remoteCommand>
+            <p:contextMenu id="mnuDiagrama" for="diagrama" targetFilter=".ui-diagram-element">
+                <p:menuitem value="Detalles"/>
+            </p:contextMenu>
+            
+            <script>
+                $(document).ready(function () {
+                    $('.ui-diagram > .ui-diagram-element').mousedown(function (info) {
+                        if (info.which === 3) {
+                            elementClickRight([{
+                                    name: 'elementId',
+                                    value: info.target.id
+                                }]);
+                        }
+                    });
+                });
+            </script>      
+        </h:form>
+         <h:form>
+            <p:panel header="Nuevo Empleado" >
+                 <h:panelGrid columns="2">
+                     
+                    <p:panel header="Jefe" >
+                        <p:outputLabel value="Identificacion:"/>
+                        <p:inputText required="true" value="#{ArbolNarioControlador.jefeident}"/>
+                        <p:commandButton ajax="false" action="#{ArbolNarioControlador.agregarEmpleado()}" value="Agregar" update="@all" />
+                    </p:panel>
+                    <p:panel header="Empleado">
+                        <h:panelGrid columns="4">
+                            <p:outputLabel value="Identificacion:"/>
+                            <p:inputText required="true" value="#{ArbolNarioControlador.empleado.ident}"/>
+                            
+                            <p:outputLabel value="Genero"/>
+                            <h:selectOneMenu value = "#{ArbolNarioControlador.empleado.genero}"> 
+                                <f:selectItem itemValue = "M" itemLabel = "M"/> 
+                                <f:selectItem itemValue = "F" itemLabel = "F"/> 
+                            </h:selectOneMenu> 
+                            
+                            <p:outputLabel value="Nombre:"/>
+                            <p:inputText required="true" value="#{ArbolNarioControlador.empleado.nombre}"/>
+                            
+                            <p:outputLabel value="Apellidos:"/>
+                            <p:inputText required="true" value="#{ArbolNarioControlador.empleado.apellido}"/>
+                            
+                            <p:outputLabel value="Ciudad"/>
+                            <h:selectOneMenu value = "#{ArbolNarioControlador.empleado.ciudad.nombre}"> 
+                                <f:selectItems value="#{ArbolNarioControlador.ciudades}"/> 
+                            </h:selectOneMenu> 
+                            
+                            <p:outputLabel value="Cargo:"/>
+                            <p:inputText required="true" value="#{ArbolNarioControlador.empleado.cargo}"/>
+                            
+                            <p:outputLabel value="Salario"/>
+                            <p:inputText required="true" value="#{ArbolNarioControlador.empleado.salario}"/>
+                            
+                            <p:outputLabel value="Edad:"/>
+                            <p:inputText required="true" value="#{ArbolNarioControlador.empleado.edad}"/>
+
+                        </h:panelGrid>
+                    </p:panel>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        <h:form>
+            <p:panel header="Nomina de un grupo de empleados" >
+                <p:panel header="Jefe" >
+                    <p:outputLabel value="Identificacion:"/>
+                    <p:inputText required="true" value="#{ArbolNarioControlador.jefeidentNomina}"/>
+                </p:panel>
+                <p:commandButton ajax="false" action="#{ArbolNarioControlador.nominaEmpleados()}" value="Calcular Nomina" update="@all" />
+                    <p:outputLabel value=" Nomina Total: $"/>
+                    <p:outputLabel value="#{ArbolNarioControlador.nomina.toString()}"/>   
+            </p:panel>
+        </h:form>
+        <h:form>
+            <p:panel header="Cantidad de empleados segun su genero" >
+                <p:panel header="Jefe" >
+                    <p:outputLabel value="Identificacion:"/>
+                    <p:inputText required="true" value="#{ArbolNarioControlador.jefeidentGenero}"/>
+                </p:panel>
+                <p:commandButton ajax="false" action="#{ArbolNarioControlador.empleadosGenero()}" value="Calcular Genero" update="@all" />
+                <p:outputLabel value="Hombres: "/>
+                <p:outputLabel value="#{ArbolNarioControlador.hombres}"/>       
+                <p:outputLabel value=" Mujeres: "/>
+                <p:outputLabel value="#{ArbolNarioControlador.mujeres}"/>    
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

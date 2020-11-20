@@ -5,27 +5,28 @@
  */
 package arboln.modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author aula205c
+ * @author maico
  */
-public class NodoN {
-    private Visitante dato;
+public class NodoN implements Serializable{
+    private Empleado dato;
     private List<NodoN> hijos;
 
-    public NodoN(Visitante dato) {
+    public NodoN(Empleado dato) {
         this.dato = dato;
-        this.hijos= new ArrayList<>();
+        this.hijos = new ArrayList();
     }
 
-    public Visitante getDato() {
+    public Empleado getDato() {
         return dato;
     }
 
-    public void setDato(Visitante dato) {
+    public void setDato(Empleado dato) {
         this.dato = dato;
     }
 
@@ -37,13 +38,7 @@ public class NodoN {
         this.hijos = hijos;
     }
     
-    public int obtenerNumeroHijos(){
-        return hijos.size();
-    }
-            
-    public void aumentarHijo(NodoN hijo)
-    {
-        hijos.add(hijo);
-    }
+    
+    
     
 }
